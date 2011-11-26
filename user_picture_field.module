@@ -38,17 +38,19 @@ function user_picture_field_user_insert(&$edit, $account, $category) {
 		}
 	}elseif($user_picture_field_source_entity == 'profile2'){
 	  $user_picture_field_source_bundle = variable_get('user_picture_field_source_bundle','');
-	  $profiles = profile2_load_by_user($account, $user_picture_field_source_bundle);
-		foreach ($profiles as $profile) {
-		  if(isset($profile->{$user_picture_field_source_field})){
-			  foreach($profile->{$user_picture_field_source_field} as $langcode => $items){
-				  if(isset($items[0]['fid'])){
-					  $fid = $items[0]['fid'];
-						break;
-					}
+	  $profile = profile2_load_by_user($account, $user_picture_field_source_bundle);
+		if(empty($profile)){
+		  return;
+		}
+		if(isset($profile->{$user_picture_field_source_field})){
+			foreach($profile->{$user_picture_field_source_field} as $langcode => $items){
+				if(isset($items[0]['fid'])){
+					$fid = $items[0]['fid'];
+					break;
 				}
 			}
 		}
+
 	}
 	if($fid){
 		db_update('users')  
