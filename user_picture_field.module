@@ -77,3 +77,37 @@ function user_picture_field_form_user_profile_form_alter(&$form, &$form_state) {
 	  unset($form['picture']);
 	}
 }
+
+/**
+ * Implements hook_profile2_insert().
+ */
+function user_picture_field_profile2_insert($profile) {
+  $user_picture_field_source_entity = variable_get('user_picture_field_source_entity','user');
+	$user_picture_field_source_bundle = variable_get('user_picture_field_source_bundle','');
+	if($user_picture_field_source_entity == 'profile2' && $user_picture_field_source_bundle == $profile->type){
+	  $fid = 0;
+		$user_picture_field_source_field = variable_get('user_picture_field_source_field','field_user_avatar');
+		if(isset($profile->{$user_picture_field_source_field})){
+			foreach($profile->{$user_picture_field_source_field} as $langcode => $items){
+				if(isset($items[0]['fid'])){
+					$fid = $items[0]['fid'];
+					break;
+				}
+			}
+		}		
+		if($fid){
+			db_update('users')  
+			->fields(array( 'picture' => $fid,))  
+			->condition('uid', $profile->uid) 
+			->execute();
+		}
+	}
+
+}
+
+/**
+ * Implements user_picture_field_profile2_update().
+ */
+function user_picture_field_profile2_update($profile) {
+  user_picture_field_profile2_insert($profile);
+}
