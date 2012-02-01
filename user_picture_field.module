@@ -65,7 +65,7 @@ function user_picture_field_user_insert(&$edit, $account, $category) {
  * Implements hook_user_update().
  */
 function user_picture_field_user_update(&$edit, $account, $category) {
-  user_picture_field_user_insert(&$edit, $account, $category);
+  user_picture_field_user_insert($edit, $account, $category);
 }
 
 /**
