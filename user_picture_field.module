@@ -110,6 +110,13 @@ function user_picture_field_profile2_insert($profile) {
           $fid = $items[0]['fid'];
           break;
         }
+        else {
+          $field_info = field_info_field($user_picture_field_source_field);
+          if (!empty($field_info['settings']['default_image'])) {
+            $fid = $field_info['settings']['default_image'];
+            break;
+          }
+        }
       }
     }
     if ($fid) {
