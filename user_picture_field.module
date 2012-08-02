@@ -34,6 +34,14 @@ function user_picture_field_user_insert(&$edit, $account, $category) {
 					$fid = $items[0]['fid'];
 					break;
 				}
+				else {
+				  $field_info = field_info_field($user_picture_field_source_field);
+				  if (!empty($field_info['settings']['default_image'])) {
+  				    $fid = $field_info['settings']['default_image'];
+  				    break;
+  				  }
+				}
+
 			}
 		}
 	}elseif($user_picture_field_source_entity == 'profile2'){
@@ -48,6 +56,14 @@ function user_picture_field_user_insert(&$edit, $account, $category) {
 					$fid = $items[0]['fid'];
 					break;
 				}
+				else {
+				  $field_info = field_info_field($user_picture_field_source_field);
+				  if (!empty($field_info['settings']['default_image'])) {
+  				    $fid = $field_info['settings']['default_image'];
+  				    break;
+  				  }
+				}
+
 			}
 		}
 
