@@ -1,3 +1,4 @@
-name = user picture field
-description = "user picture field."
-core = 7.x
+name = User picture field
+description = Use an image field as the user account picture field.
+backdrop = 1.x
+type = module

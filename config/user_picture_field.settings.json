@@ -1,0 +1,6 @@
+{
+    "_config_name": "user_picture_field.settings",
+    "source_entity": "user",
+    "source_bundle": "",
+    "source_field": "field_user_avatar"
+}

@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the user_picture_field module.
+ *
+ */
+
+/**
+ * Migrate user_picture_field variables to config.
+ */
+function user_picture_field_update_1000() {
+  $config = config('user_picture_field.settings');
+  $config->set('source_entity', update_variable_get('user_picture_field_source_entity', 'user'));
+  $config->set('source_bundle', update_variable_get('user_picture_field_source_bundle', ''));
+  $config->set('source_field', update_variable_get('user_picture_field_source_field', 'field_user_avatar'));
+  $config->save();
+
+  update_variable_del('user_picture_field_source_entity');
+  update_variable_del('user_picture_field_source_bundle');
+  update_variable_del('user_picture_field_source_field');
+}
