@@ -49,11 +49,10 @@ function user_picture_field_user_insert($account) {
         else {
           $field_info = field_info_field($source_field);
           if (!empty($field_info['settings']['default_image'])) {
-            $fid = $field_info['settings']['default_image'];
+            $file_default_uri = $field_info['settings']['default_image'];
             break;
           }
         }
-
       }
     }
   }
@@ -72,22 +71,25 @@ function user_picture_field_user_insert($account) {
         else {
           $field_info = field_info_field($source_field);
           if (!empty($field_info['settings']['default_image'])) {
-            $fid = $field_info['settings']['default_image'];
+            $file_default_uri = $field_info['settings']['default_image'];
             break;
           }
         }
-
       }
     }
-
   }
-  if ($fid) {
+  if ($fid > 0) {
     db_update('users')
       ->fields(array('picture' => $fid))
       ->condition('uid', $account->uid)
       ->execute();
   }
-  //user_save($account);
+  elseif (!empty($file_default_uri)) {
+    $system_default_filepath = config_get('system.core', 'user_picture_default');
+    if (empty($system_default_filepath)) {
+      config_set('system.core', 'user_picture_default', $file_default_uri);
+    }
+  }
 }
 
 /**
@@ -126,17 +128,23 @@ function user_picture_field_profile_insert($profile) {
         else {
           $field_info = field_info_field($source_field);
           if (!empty($field_info['settings']['default_image'])) {
-            $fid = $field_info['settings']['default_image'];
+            $file_default_uri = $field_info['settings']['default_image'];
             break;
           }
         }
       }
     }
-    if ($fid) {
+    if ($fid > 0) {
       db_update('users')
         ->fields(array('picture' => $fid))
         ->condition('uid', $profile->uid)
         ->execute();
+    }
+    elseif (!empty($file_default_uri)) {
+      $system_default_filepath = config_get('system.core', 'user_picture_default');
+      if (empty($system_default_filepath)) {
+        config_set('system.core', 'user_picture_default', $file_default_uri);
+      }
     }
   }
 
